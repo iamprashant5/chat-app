@@ -1,0 +1,43 @@
+{
+  "name": "message",
+  "connector": "rest",
+  "baseURL": "",
+  "crud": false,
+  "options": {
+    "baseUrl": "$AUTH_SERVICE_URL",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    }
+  },
+  "operations": [
+    {
+      "template": {
+        "method": "POST",
+        "url": "/auth/google",
+        "headers": {
+          "content-type": "application/x-www-form-urlencoded"
+        },
+        "body":"{clientData}",
+        "fullResponse": true
+      },
+      "functions": {
+        "authGoogle": ["clientData"]
+      }
+    }, 
+    {
+      "template": {
+        "method":"GET",
+        "url": "/auth/google-auth-redirect",
+        "query": {
+          "code": "{code}",
+          "state": "{state}"
+        },
+        "fullResponse": true
+      },
+      "functions": {
+        "authGoogleRedirect": ["code", "state"]
+      }
+    }
+  ]
+}
